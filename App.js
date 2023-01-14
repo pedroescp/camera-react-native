@@ -32,6 +32,18 @@ export default function Cameras() {
     }
   };
 
+  const saveImage = async () => {
+    if (image) {
+      try {
+        await MediaLibrary.createAssetAsync(image);
+        alert("Picture Save");
+        setImage(null);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
   if (hasCameraPermission === false) {
     return <Text>No acess to camera</Text>;
   }
@@ -43,7 +55,18 @@ export default function Cameras() {
           type={type}
           flashMode={flash}
           ref={cameraRef}
-        />
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              padding: 30,
+            }}
+          >
+            <Button icon={"retweet"} />
+            <Button icon={"flash"} />
+          </View>
+        </Camera>
       ) : (
         <Image />
       )}
@@ -62,7 +85,7 @@ export default function Cameras() {
               icon="retweet"
               onPress={() => setImage(null)}
             />
-            <Button title={"save"} icon="check" />
+            <Button title={"save"} icon="check" onPress={saveImage} />
           </View>
         ) : (
           <Button
