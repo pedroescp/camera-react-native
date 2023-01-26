@@ -9,7 +9,7 @@ export default function Cameras() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [type, settype] = useState(CameraType.back);
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.false);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
 
   useEffect(() => {
@@ -60,11 +60,27 @@ export default function Cameras() {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              padding: 30,
+              alignContent: "center",
             }}
           >
-            <Button icon={"retweet"} />
-            <Button icon={"flash"} />
+            <Button
+              icon={"retweet"}
+              onPress={() => {
+                settype(
+                  type === CameraType.back ? CameraType.front : CameraType.back
+                );
+              }}
+            />
+            <Button
+              icon={"flash"}
+              onPress={() => {
+                setFlash(
+                  flash === Camera.Constants.FlashMode.off
+                    ? Camera.Constants.FlashMode.on
+                    : Camera.Constants.FlashMode.off
+                );
+              }}
+            />
           </View>
         </Camera>
       ) : (
@@ -104,11 +120,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
     justifyContent: "center",
-    paddingBottom: 50,
+    paddingBottom: 150,
+    paddingTop: 150,
   },
 
   camera: {
     flex: 1,
     borderRadius: 20,
+    display: "flex",
+    alignContent: "center",
   },
 });
